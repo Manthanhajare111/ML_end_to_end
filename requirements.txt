@@ -5,4 +5,7 @@ matplotlib
 scikit-learn
 catboost
 xgboost
+sqlalchemy
+psycopg2
+dill
 # -e .
