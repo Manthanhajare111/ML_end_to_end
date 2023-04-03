@@ -1,9 +1,11 @@
 import os
 import sys
+sys.path.append("C:/Users/manteshwar.hajare/ML_end_to_end")
 from src.exception import CustomException
+# from src.exception import CustomException
 from src.logger import logging
 import pandas as pd
-
+import pdb
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
@@ -11,10 +13,14 @@ from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 import psycopg2
 from sqlalchemy import create_engine
-from set_tmp_env_var import set_variables
-set_variables()
-engine = create_engine("postgresql://{0}:{1}@{2}:{3}/{4}".format(os.environ["DB_USER"], os.environ["DB_PASS"], os.environ["DB_HOST"], os.environ["DB_PORT"], os.environ["DB_NAME"]))
-dbConnection    = engine.connect()
+
+from src.components.model_trainer import ModelTrainConfig
+from src.components.model_trainer import ModelTrainer
+# from set_tmp_env_var import set_variables
+
+# set_variables()
+# engine = create_engine("postgresql://{0}:{1}@{2}:{3}/{4}".format(os.environ["DB_USER"], os.environ["DB_PASS"], os.environ["DB_HOST"], os.environ["DB_PORT"], os.environ["DB_NAME"]))
+# dbConnection    = engine.connect()
 
 
 @dataclass
@@ -57,7 +63,10 @@ if __name__ == "__main__":
     train_data,test_data=obj.intiate_data_ingestion()
 
     data_transformation= DataTransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
+    train_arr,test_arr,_ = data_transformation.initiate_data_transformation(train_data,test_data)
+    
+    modeltrainer = ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
 
         
 
